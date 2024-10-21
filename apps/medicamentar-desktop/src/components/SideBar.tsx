@@ -92,11 +92,13 @@ const Sidebar: React.FC = () => {
       await logout();
     } else if (action === "events") {
       navigate("/home");
+    } else if (action == "exam") {
+      navigate("/exam");
     } else if (action === "medicine") {
       navigate("/medicine");
     } else if (action == "config") {
       navigate("/config");
-    }
+    } 
   };
 
   return (
