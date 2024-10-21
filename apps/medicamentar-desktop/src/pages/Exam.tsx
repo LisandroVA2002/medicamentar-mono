@@ -3,31 +3,20 @@ import { Box, Grid, Typography, Button, Tabs, Tab, Container } from '@mui/materi
 import CardHome from '../components/CardHome.tsx';
 import SideBar from '../components/SideBar.tsx';
 import Header from '../components/Header.tsx';
-import ExamModal from '../components/ExamModal';
+import ExamModal from '../components/Modals/ExamModal';
 import { useTheme } from '../constants/theme/useTheme';
 
 const Exam = () => {
     const { darkMode } = useTheme();
     const [isModalOpen, setModalOpen] = useState<boolean>(false);
     const [activeTab, setActiveTab] = useState<number>(0);
-    const [exams, setExams] = useState<any[]>([]); 
-    const handleTabChange = (event: React.ChangeEvent<{}>, newValue: number) => {
-        setActiveTab(newValue);
-    };
 
     const handleOpenModal = () => {
         setModalOpen(true);
     };
 
-    const handleCloseModal = () => {
-        setModalOpen(false);
-    };
-
-    const fetchExams = async () => {
-       
-        const response = await fetch('/api/exams'); 
-        const data = await response.json();
-        setExams(data);
+    const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+        setActiveTab(newValue);
     };
 
     return (
@@ -89,18 +78,37 @@ const Exam = () => {
                 </Button>
 
                 <Grid container spacing={2} sx={{ flex: 1, margin: 'auto' }}>
-                    {exams.map((exam, index) => (
-                        <CardHome
-                            key={index}
-                            titulo={exam.titulo}
-                            descricao={exam.descricao}
-                            dataHora={exam.dataHora}
-                        />
-                    ))}
+                    {activeTab === 0 ? (
+                        <>
+                            <CardHome
+                                titulo="EXAME"
+                                descricao="EXAME DE VISTA - HPMA DR. LULINHA"
+                                dataHora="12/04 ÀS 11H"
+                            />
+                            <CardHome
+                                titulo="EXAME"
+                                descricao="ULTRASSOM PELVICA"
+                                dataHora="12/04 ÀS 10H"
+                            />
+                        </>
+                    ) : (
+                        <>
+                            <CardHome
+                                titulo="CONSULTA"
+                                descricao="CONSULTA MÉDICA - HMPA DR. LULINHA"
+                                dataHora="12/04 ÀS 14H"
+                            />
+                            <CardHome
+                                titulo="CONSULTA"
+                                descricao="CONSULTA MÉDICA - DR. SILVA"
+                                dataHora="13/04 ÀS 9H"
+                            />
+                        </>
+                    )}
                 </Grid>
             </Box>
 
-            {isModalOpen && <ExamModal onClose={handleCloseModal} fetchExams={fetchExams} />}
+            {isModalOpen && <ExamModal />}
         </Container>
     );
 };
